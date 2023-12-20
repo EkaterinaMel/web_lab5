@@ -1,0 +1,91 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title> Калькулятор </title>
+</head>
+<body>
+<form action="{{ url_for('main') }}" method="get">
+    {% if shape != "p" %}
+    <p>Число в виде a + bi:<br>
+        Число 1:<br>
+        a: <input type=number name=a1 value={{a1}}>
+        b: <input type=number name=b1 value={{b1}}>
+        <br>Число 2:<br>
+        a: <input type=number name=a2 value={{a2}}>
+        b: <input type=number name=b2 value={{b2}}>
+    </p>
+    {% else %}
+    <p>Число в виде |z|*e^(i*phi):<br>
+        Число 1:<br>
+        |z|: <input type=number name=a1 value={{a1}}>
+        phi: <input type=number name=b1 value={{b1}}>
+        <br>Число 2:<br>
+        |z|: <input type=number name=a2 value={{a2}}>
+        phi: <input type=number name=b2 value={{b2}}>
+    </p>
+    {% endif %}
+    <p>Форма числа:<br>
+        {% if shape != "p" %}
+        <input type = radio name=shape value=a checked> {{shapes[0]}} <br>
+        <input type = radio name=shape value=p> {{shapes[1]}}
+        {% else %}
+        <input type = radio name=shape value=a> {{shapes[0]}} <br>
+        <input type = radio name=shape value=p checked> {{shapes[1]}}
+        {% endif %}
+        <br><input type=submit value=Показать>
+    </p>
+    <p>
+        Выберите действия:<br>
+        {% for i in range(len(act_list)) %}
+        {% if len(act_id) == 0 %}<input type = checkbox name=act[] value={{i}}>
+        {% elif act_id[i] == i %}
+        <input type = checkbox name=act[] value={{i}} checked>
+        {% else %}
+        <input type = checkbox name=act[] value={{i}}>
+        {% endif %}
+        {{act_list[i]}}<br>
+        {% endfor %}
+    </p>
+    <p><input type=submit value=Вычислить> </p>
+</form>
+<form action="{{ url_for('main2') }}" ><input type=submit value=Очистить></form>
+<p>Результат:<br>
+{% if shape != "p" %}
+    Число в виде a + bi:
+    {% if act_id[0] == 0 %}
+    <br>Произведение:<br>
+    a: <input type=number value={{a_prod}} disabled>
+    b: <input type=number value={{b_prod}} disabled>
+    {% endif %}
+    {% if act_id[1] == 1 %}
+    <br>Сумма:<br>
+    a: <input type=number value={{a_sum}} disabled>
+    b: <input type=number value={{b_sum}} disabled>
+    {% endif %}
+    {% if act_id[2] == 2 %}
+    <br>Частное:<br>
+    a: <input type=number value={{a_quot}} disabled>
+    b: <input type=number value={{b_quot}} disabled>
+    {% endif %}
+{% else %}
+    Число в виде |z|*e^(i*phi):
+    {% if act_id[0] == 0 %}
+    <br>Произведение:<br>
+    |z|: <input type=number value={{a_prod}} disabled>
+    phi: <input type=number value={{b_prod}} disabled>
+    {% endif %}
+    {% if act_id[1] == 1 %}
+    <br>Сумма:<br>
+    |z|: <input type=number value={{a_sum}} disabled>
+    phi: <input type=number value={{b_sum}} disabled>
+    {% endif %}
+    {% if act_id[2] == 2 %}
+    <br>Частное:<br>
+    |z|: <input type=number value={{a_quot}} disabled>
+    phi: <input type=number value={{b_quot}} disabled>
+    {% endif %}
+    {% endif %}
+
+</p>
+</body>
+</html>
